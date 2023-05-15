@@ -1,19 +1,27 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
+import { PrismaClient,JsonForm } from "@prisma/client";
 import { JsonFormRepository } from "./jsonForm.repository";
+import { ok } from "assert";
 
 @Controller('/jsonForm')
 export class ProductController {
 
-    constructor(private _jsonFormRepository: JsonFormRepository) { }
+    private readonly _jsonFormService: JsonFormRepository;
+    constructor() {
+        this._jsonFormService = new JsonFormRepository();   
+    }
 
     @Post()
-    async CreateUser(@Body() jsonData) {
-        this._jsonFormRepository.save(jsonData)
-        return jsonData;
+    async CreateJsonForm(@Body() jsonData) : Promise<JsonForm> {
+        
+        const jsonForm = await this._jsonFormService.createJsonForm(jsonData);
+
+        return jsonForm;
     }
 
     @Get()
-    async getUsers() {
-        return this._jsonFormRepository.getJsonForm();
+    async getJsonForms() {
+        const jsonForm = await this._jsonFormService.allJsonForm();
+        return jsonForm;
     }
 }

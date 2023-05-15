@@ -12,8 +12,8 @@ generator client {
 }
 
 model JsonForm {
-  id             String    @id @default(cuid())
-  jsonName       String?
-  newValues      Json?
-  originalValues Json?
+  id             Int    @id @default(autoincrement())
+  JsonName       String
+  NewValues      Json
+  OriginalValues Json
 }
